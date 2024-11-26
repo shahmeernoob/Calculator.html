@@ -1,0 +1,417 @@
+<!DOCTYPE html>
+<html lang="en">
+
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Pak Wheel</title>
+    <link href="https://cdn.jsdelivr.net/npm/bootstrap@5.3.3/dist/css/bootstrap.min.css" rel="stylesheet"
+        integrity="sha384-QWTKZyjpPEjISv5WaRU9OFeRpok6YctnYmDr5pNlyT2bRjXh0JMhjY6hW+ALEwIH" crossorigin="anonymous">
+    <script src="https://cdn.jsdelivr.net/npm/bootstrap@5.3.3/dist/js/bootstrap.bundle.min.js"
+        integrity="sha384-YvpcrYf0tY3lHB60NNkmXc5s9fDVZLESaAA55NDzOxhy9GkcIdslK1eN7N6jIeHz"
+        crossorigin="anonymous"></script>
+    <link rel="stylesheet" href="pakwheel.css">
+    <style>
+        body {
+            font-family: Arial, sans-serif;
+            background-color: #f4f4f4;
+            margin: 0;
+        }
+
+        h1 {
+            text-align: center;
+            color: #333;
+        }
+
+        input,
+        select {
+            padding: 8px;
+        }
+
+        .car-list {
+            display: flex;
+            flex-wrap: wrap;
+            justify-content: space-between;
+        }
+
+        .car-card {
+            background: white;
+            border: 1px solid #ccc;
+            border-radius: 5px;
+            padding: 10px;
+            margin: 10px;
+            width: calc(30% - 20px);
+            position: relative;
+        }
+
+        .car-image {
+            max-width: 100%;
+            border-radius: 5px;
+            height: 160px;
+        }
+
+        .car-title {
+            font-size: 1.2em;
+            margin: 10px 0;
+        }
+
+        .car-details {
+            color: #555;
+            font-size: 0.9em;
+        }
+
+        .edit-button,
+        .delete-button {
+            margin-top: 10px;
+            cursor: pointer;
+            padding: 5px;
+            border: none;
+            border-radius: 3px;
+        }
+
+        .edit-button {
+            background-color: #4CAF50;
+            color: white;
+        }
+
+        .delete-button {
+            background-color: #f44336;
+            color: white;
+        }
+
+        .input1 {
+            width: 100%;
+            padding: 10px;
+            margin: 10px 0;
+        }
+
+        .accordion-button {
+            background-color: white !important;
+        }
+
+        a {
+            color: #353944;
+        }
+
+        .text1 {
+            margin: auto;
+        }
+    </style>
+</head>
+
+<body>
+    <div class="container">
+        <h3 class="text-primary my-4">Used Cars For Sale In Pakistan</h3>
+        <div class="row">
+            <div class="col-4">
+                <div class="bg-primary p-1">
+                    <p class="text-white fs-5">Show Results By:</p>
+                </div>
+
+                <div>
+                    <div class="accordion rounded" id="accordionExample">
+                        <div class="accordion-item">
+                            <h2 class="accordion-header">
+                                <button class="accordion-button shadow-none fw-bold" type="button"
+                                    data-bs-toggle="collapse" data-bs-target="#collapseSearch" aria-expanded="true"
+                                    aria-controls="collapseSearch">
+                                    Search by Keyword
+                                </button>
+                            </h2>
+                            <div id="collapseSearch" class="accordion-collapse collapse show"
+                                data-bs-parent="#accordionExample">
+                                <div class="accordion-body py-3 px-2">
+                                    <input type="text" class="input1" id="search" placeholder="Search for cars..." />
+                                </div>
+                            </div>
+                        </div>
+                        <div class="accordion-item">
+                            <h2 class="accordion-header">
+                                <button class="accordion-button shadow-none fw-bold" type="button"
+                                    data-bs-toggle="collapse" data-bs-target="#collapseCity" aria-expanded="true"
+                                    aria-controls="collapseCity">
+                                    City
+                                </button>
+                            </h2>
+                            <div id="collapseCity" class="accordion-collapse collapse show"
+                                data-bs-parent="#accordionExample">
+                                <div class="accordion-body ">
+                                    <ul class="list-unstyled p-0">
+                                        <li class="d-flex">
+                                            <input type="checkbox" class="me-2" value="Lahore">
+                                            <span><a class="text-decoration-none" href="#">Lahore</a></span>
+                                        </li>
+                                        <li class="d-flex">
+                                            <input type="checkbox" class="me-2" value="Karachi">
+                                            <span><a class="text-decoration-none" href="#">Karachi</a></span>
+                                        </li>
+                                        <li class="d-flex">
+                                            <input type="checkbox" class="me-2" value="Islamabad">
+                                            <span><a class="text-decoration-none" href="#">Islamabad</a></span>
+                                        </li>
+                                        <li class="d-flex">
+                                            <input type="checkbox" class="me-2" value="Rawalpindi">
+                                            <span><a class="text-decoration-none" href="#">Rawalpindi</a></span>
+                                        </li>
+                                        <li class="d-flex">
+                                            <input type="checkbox" class="me-2" value="Peshawar">
+                                            <span><a class="text-decoration-none" href="#">Peshawar</a></span>
+                                        </li>
+                                    </ul>
+                                </div>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+            </div>
+            <div class="col-8">
+                <div class="justify-content-between d-flex bg-secondary py-2 px-3">
+                    <div>
+                        <select id="sort" class="form-select">
+                            <option value="none">Sort By</option>
+                            <option value="asc">Price: Low to High</option>
+                            <option value="desc">Price: High to Low</option>
+                            <option value="year_desc">Model Year: Latest First</option>
+                            <option value="year_asc">Model Year: Oldest First</option>
+                            <option value="mileage_asc">Mileage: Low to High</option>
+                            <option value="mileage_desc">Mileage: High to Low</option>
+                        </select>
+                    </div>
+                    <div>
+                        <button class="bg-secondary-emphasis text-black border-0 py-1 px-3" id="addCarBtn"
+                            data-bs-toggle="modal" data-bs-target="#addCarModal">Add</button>
+                    </div>
+                </div>
+                <div id="car-list" class="car-list"></div>
+            </div>
+        </div>
+    </div>
+
+    <div class="modal fade" id="addCarModal" tabindex="-1" aria-labelledby="addCarModalLabel" aria-hidden="true"
+        data-backrop="static">
+        <div class="modal-dialog">
+            <div class="modal-content">
+                <div class="modal-header">
+                    <h5 class="modal-title" id="addCarModalLabel">Add Car</h5>
+                    <button onclick="cancelModalBtn()" type="button" class="btn-close" data-bs-dismiss="modal"
+                        aria-label="Close"></button>
+                </div>
+                <div class="modal-body">
+                    <form id="carForm">
+                        <div class="mb-3">
+                            <label for="carTitle" class="form-label">Car Title</label>
+                            <input type="text" class="form-control shadow-none" id="carTitle" required>
+                        </div>
+                        <div class="mb-3">
+                            <label for="location" class="form-label">Location</label>
+                            <input type="text" class="form-control shadow-none" id="location" required>
+                        </div>
+                        <div class="mb-3">
+                            <label for="price" class="form-label">Price</label>
+                            <input type="number" class="form-control shadow-none" id="price" required>
+                        </div>
+                        <div class="mb-3">
+                            <label for="mileage" class="form-label">Mileage</label>
+                            <input type="number" class="form-control shadow-none" id="mileage" required>
+                        </div>
+                        <div class="mb-3">
+                            <label for="gear" class="form-label">Gear Type</label>
+                            <input type="text" class="form-control shadow-none" id="gear" required>
+                        </div>
+                        <div class="mb-3">
+                            <label for="image" class="form-label">Upload Image</label>
+                            <input type="file" class="form-control shadow-none" id="image" required>
+                        </div>
+                        <div>
+                            <img id="imagePreview" src="" alt="Car Image"
+                                style="display: none; width: 100px; height: auto;" />
+                        </div>
+                    </form>
+                </div>
+                <div class="modal-footer">
+                    <button type="button" onclick="cancelModalBtn()" class="btn btn-secondary"
+                        data-bs-dismiss="modal">Close</button>
+                    <button type="button" class="btn btn-primary" id="submitCar">Add Car</button>
+                </div>
+            </div>
+        </div>
+    </div>
+
+    <script>
+
+        const carList = [
+            {
+                title: 'Toyota Corolla',
+                location: 'Karachi',
+                price: 20000,
+                mileage: 15000,
+                gear: 'Automatic',
+                image: 'https://cache1.pakwheels.com/system/car_generation_pictures/5361/original/Corolla-X-Cars-Cropped-Pictures-for-Website.jpg?1606903674'
+            },
+            {
+                title: 'Honda Civic',
+                location: 'Lahore',
+                price: 25000,
+                mileage: 12000,
+                gear: 'Manual',
+                image: 'https://media.istockphoto.com/id/1348050852/photo/honda-city.jpg?s=612x612&w=0&k=20&c=g50qN7jubfGQ6k2b7-sbwC0JBXXGzMn_5Hl8H9KcSOk='
+            },
+            {
+                title: 'Suzuki Alto',
+                location: 'Islamabad',
+                price: 10000,
+                mileage: 30000,
+                gear: 'Automatic',
+                image: 'https://suzukifortmotors.com/wp-content/uploads/2020/12/Alto-Solid-White.jpg'
+            }
+        ];
+
+        const carListElement = document.getElementById('car-list');
+        const addCarBtn = document.getElementById('submitCar');
+        const searchInput = document.getElementById('search');
+        const sortSelect = document.getElementById('sort');
+        const cityCheckboxes = document.querySelectorAll('.accordion-item input[type="checkbox"]');
+        let editingCarIndex = null;
+
+
+        document.getElementById('image').addEventListener('change', function (event) {
+            const reader = new FileReader();
+            reader.onload = function () {
+                const imagePreview = document.getElementById('imagePreview');
+                imagePreview.src = reader.result;
+                imagePreview.style.display = 'block';
+            };
+            reader.readAsDataURL(event.target.files[0]);
+        });
+
+
+        function cancelModalBtn() {
+            document.getElementById('carTitle').value = "";
+            document.getElementById('location').value = "";
+            document.getElementById('price').value = "";
+
+            document.getElementById('mileage').value = "";
+            document.getElementById('gear').value = "";
+            document.getElementById('image').files[0] = "";
+
+            document.getElementById('imagePreview').style.display = 'none';
+
+        };
+
+
+        addCarBtn.addEventListener('click', function () {
+            const title = document.getElementById('carTitle').value;
+            const location = document.getElementById('location').value;
+            const price = parseFloat(document.getElementById('price').value);
+            const mileage = parseFloat(document.getElementById('mileage').value);
+            const gear = document.getElementById('gear').value;
+            const image = document.getElementById('image').files[0];
+
+
+
+            if (!title || !location || !price || !mileage || !gear || !image) return;
+
+            const car = {
+                title,
+                location,
+                price,
+                mileage,
+                gear,
+                image: URL.createObjectURL(image)
+            };
+            console.log(car.image);
+
+            if (editingCarIndex !== null) {
+                carList[editingCarIndex] = car;
+                editingCarIndex = null;
+            } else {
+                carList.push(car);
+            }
+
+
+            document.getElementById('carForm').reset();
+            document.getElementById('imagePreview').style.display = 'none';
+            const modal = bootstrap.Modal.getInstance(document.getElementById('addCarModal'));
+            modal.hide();
+            displayCars();
+        });
+        let myindex;
+        function editCar(index) {
+            const car = carList[index];
+            myindex = index
+            document.getElementById('carTitle').value = car.title;
+            document.getElementById('location').value = car.location;
+            document.getElementById('price').value = car.price;
+            document.getElementById('mileage').value = car.mileage;
+            document.getElementById('gear').value = car.gear;
+
+
+
+            const imagePreview = document.getElementById('imagePreview');
+            imagePreview.src = car.image;
+            imagePreview.style.display = 'block';
+
+
+            editingCarIndex = index;
+            const modal = new bootstrap.Modal(document.getElementById('addCarModal'));
+            modal.show();
+            console.log(modal)
+            // cancelModalBtn();
+        }
+
+        searchInput.addEventListener('input', displayCars);
+        sortSelect.addEventListener('change', displayCars);
+
+        cityCheckboxes.forEach(checkbox => {
+            checkbox.addEventListener('change', displayCars);
+        });
+
+        function displayCars() {
+            const searchValue = searchInput.value.toLowerCase();
+            const sortValue = sortSelect.value;
+
+            const selectedCities = Array.from(cityCheckboxes)
+                .filter(checkbox => checkbox.checked)
+                .map(checkbox => checkbox.value.toLowerCase());
+
+            const filteredCars = carList.filter(car => {
+                const matchesSearch = car.title.toLowerCase().includes(searchValue) ||
+                    car.location.toLowerCase().includes(searchValue);
+                const matchesCity = selectedCities.length === 0 || selectedCities.includes(car.location.toLowerCase());
+                return matchesSearch && matchesCity;
+            });
+
+            if (sortValue === 'asc') {
+                filteredCars.sort((a, b) => a.price - b.price);
+            } else if (sortValue === 'desc') {
+                filteredCars.sort((a, b) => b.price - a.price);
+            }
+
+            carListElement.innerHTML = filteredCars.map((car, index) => `
+        <div class="car-card w-100 d-flex">
+            <img src="${car.image}" alt="Car Image" class="car-image" />
+            <div class="mx-3">
+                <div class="car-title m-2">${car.title}</div>
+                <div class="car-details m-2">Location: ${car.location}</div>
+                <div class="car-details m-2">Price: $${car.price.toFixed(2)}</div>
+                <div class="car-details m-2">Mileage: ${car.mileage} km</div>
+                <div class="car-details m-2">Gear: ${car.gear}</div>
+            </div>
+            <div class="text1">
+                <button class="edit-button" onclick="editCar(${index})">Edit</button>
+                <button class="delete-button" onclick="deleteCar(${index})">Delete</button>
+            </div>
+        </div>
+    `).join('');
+        }
+
+        function deleteCar(index) {
+            carList.splice(index, 1);
+            displayCars();
+        }
+
+        displayCars();
+    </script>
+</body>
+
+</html>
